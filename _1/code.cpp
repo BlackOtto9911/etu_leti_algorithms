@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <clocale>
 #include "../headers/set.h"
 
 using namespace std;
@@ -9,19 +10,44 @@ void print(const set<string>& s) {
     cout << endl;
 }
 
-int main() {
-    int sizeA = 8, sizeB = 5, sizeC = 5, sizeD = 0;
+void input(set<string>& s) {
+    string line;
+    getline(cin, line, '\n');
 
-    string A[] = {"а", "б", "в", "г", "е", "ё", "ж", "з"};
-    string B[] = {"а", "б", "в", "е", "ж"};
-    string C[] = {"а", "б", "в", "е", "ё"};
-    string D[] = {};
+    for (int i = 0; i < line.size(); ) {
+        unsigned char ch = line[i];
+        size_t len;
+
+        // Определяем длину UTF-8 символа по первому байту
+        if ((ch & 0x80) == 0) len = 1;          // 0xxxxxxx
+        else if ((ch & 0xE0) == 0xC0) len = 2;  // 110xxxxx
+        else if ((ch & 0xF0) == 0xE0) len = 3;  // 1110xxxx
+        else if ((ch & 0xF8) == 0xF0) len = 4;  // 11110xxx
+        else len = 1; // fallback (некорректный UTF-8)
+
+        // Ограничиваем длину размером строки
+        if (i + len > line.size()) len = 1;
+
+        s.insert(line.substr(i, len));
+        i += len;
+    }
+}
+
+int main() {
+    setlocale(LC_ALL, "Russian");
     
-    set<string> setA(A, sizeA);
-    set<string> setB(B, sizeB);
-    set<string> setC(C, sizeC);
-    set<string> setD(D, sizeD);
+    set<string> setA;
+    set<string> setB;
+    set<string> setC;
+    set<string> setD;
     set<string> setE;
+
+    cout << "A: "; input(setA);
+    cout << "B: "; input(setB);
+    cout << "C: "; input(setC);
+    cout << "D: "; input(setD);
+
+    cout << endl;
 
     cout << "A: "; print(setA);
     cout << "B: "; print(setB);
