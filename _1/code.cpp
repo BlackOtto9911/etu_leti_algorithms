@@ -55,8 +55,17 @@ int main() {
     cout << "D: "; print(setD);
     
     // Находим A ∩ B ∩ C - D
-    for (auto ch : setA) {
-        if (setB.find(ch) != nullptr && setC.find(ch) != nullptr && setD.find(ch) == nullptr) setE.insert(ch);
+    for (auto chA : setA) {
+        for (auto chB : setB) {
+            for (auto chC : setC)
+            if (chA == chB && chA == chC) setE.insert(chA);
+        }
+    }
+
+    for (auto itE = setE.begin(); itE != setE.end(); itE++) {
+        for (auto itD = setD.begin(); itD != setD.end(); itD++) {
+            if (*itE == *itD) setE.erase(*itE);
+        }
     }
 
     // Вывод результата
