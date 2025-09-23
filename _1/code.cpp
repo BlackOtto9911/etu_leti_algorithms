@@ -3,6 +3,8 @@
 #include <clocale>
 #include "../headers/list.h"
 
+//a folder added
+
 using namespace std;
 
 void print(list<string>& l) {
