@@ -6,70 +6,71 @@ using namespace std;
 
 string universe = "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯЁ";
 
-struct bit {
-    unsigned int bit:1;
-};
-
-void init(bit* b) {
-    for (int i = 0; i < 33; i++) b[i].bit = 0;
-}
-
 int f(string s) {
-    if (s[1]-'0'+160 == -15) return 32; // Ё
-    return s[1]-'0'+160;
+   if (s[1]-'0'+160 == -15) return 32; // Ё
+   return s[1]-'0'+160;
 }
 
 string fb(int i) {
-    return universe.substr(i*2, 2);
+   return universe.substr(i*2, 2);
 }
 
-void input(bit *b) {
-    string line;
-    getline(cin, line, '\n');
+void input(unsigned long long& w) {
+   string line;
+   getline(cin, line, '\n');
 
-    for (int i = 0; i < line.size(); i+=2) b[f(line.substr(i, 2))].bit = 1;
+   for (int i = 0; i < line.size(); i+=2) w |= (1LL << f(line.substr(i, 2)));
 }
 
-void print(bit *b) {
-    for (int i = 0; i < 33; i++) {
-        if (b[i].bit == 1) cout << fb(i) << " ";
-    }
-    cout << endl;
+void show(unsigned long long w) {
+   for (int i = 0; i < 33; i++) {
+       std::cout << w%2;
+       w /= 2;
+   }
+   cout << endl;
 }
 
-void printBits(bit *b) {
-    for (int i = 0; i < 33; i++) cout << b[i].bit << " ";
-    cout << endl;
+void print(unsigned long long w) {
+   for (int i = 0; i < 33; i++) {
+       if (w%2 == 1) cout << fb(i) << " ";
+       w/=2;
+   }
+   cout << endl;
 }
 
 int main() {
-    setlocale(LC_ALL, "Russian");
-    
-    bit bA[33]; init(bA);
-    bit bB[33]; init(bB);
-    bit bC[33]; init(bC);
-    bit bD[33]; init(bD);
-    bit bE[33]; init(bE);
-    
-    cout << "A: "; input(bA);
-    cout << "B: "; input(bB);
-    cout << "C: "; input(bC);
-    cout << "D: "; input(bD);
+   setlocale(LC_ALL, "Russian");
+  
+   unsigned long long wA = 0;
+   unsigned long long wB = 0;
+   unsigned long long wC = 0;
+   unsigned long long wD = 0;
+   unsigned long long wE = 0;
+  
+   cout << "A: "; input(wA);
+   show(wA);
+   cout << "B: "; input(wB);
+   show(wB);
+   cout << "C: "; input(wC);
+   show(wC);
+   cout << "D: "; input(wD);
 
-    cout << endl;
+   cout << endl;
 
-    cout << "A: "; print(bA);
-    cout << "B: "; print(bB);
-    cout << "C: "; print(bC);
-    cout << "D: "; print(bD);
-    
-    // Находим A ∩ B ∩ C - D
-    for (int i = 0; i < 33; i++) bE[i].bit = bA[i].bit && bB[i].bit && bC[i].bit; 
+   cout << "A: "; print(wA);
+   cout << "B: "; print(wB);
+   cout << "C: "; print(wC);
+   cout << "D: "; print(wD);
+  
+   // Находим A ∩ B ∩ C - D
+   wE = wA & wB & wC;
+   show(wD); show(~wD);
+   show(wE);
 
-    for (int i = 0; i < 33; i++) bE[i].bit = not (bE[i].bit <= bD[i].bit);
-    
-    // // Вывод результата
-    cout << "Множество E = A ∩ B ∩ C - D: "; print(bE);
+   wE = wE & (~wD);
+  
+   // Вывод результата
+   cout << "Множество E = A ∩ B ∩ C - D: "; print(wE);
 
-    return 0;
+   return 0;
 }
