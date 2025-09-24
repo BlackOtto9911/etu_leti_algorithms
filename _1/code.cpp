@@ -17,7 +17,7 @@ void init(set<string>& s) {
     
 }
 
-void print(set<string>& s) {
+void print(set<string>& s) { 
     for (auto ch : s) cout << ch << " ";
     cout << endl;
 }
