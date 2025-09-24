@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <clocale>
+#include <chrono>
 #include "../headers/set.h"
 
 using namespace std;
@@ -23,6 +24,8 @@ void print(set<string>& s) {
 }
 
 int main() {
+    auto t1 = std::chrono::high_resolution_clock::now();
+
     srand(time(0));
     setlocale(LC_ALL, "Russian");
     
@@ -60,6 +63,9 @@ int main() {
 
     // Вывод результата
     cout << "Множество E = A ∩ B ∩ C - D: "; print(setE);
+
+    auto t2 = std::chrono::high_resolution_clock::now();
+    cout << "Время выполнения: " << std::chrono::duration_cast<std::chrono::duration<double, micro>>(t2-t1).count() << " мкс" << endl;
 
     return 0;
 }
