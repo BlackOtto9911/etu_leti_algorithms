@@ -1,83 +1,75 @@
 #include <iostream>
 #include <string>
 #include <clocale>
-#include "../headers/list.h"
-
-//a folder added
 
 using namespace std;
 
-void print(list<string>& l) {
-    for (auto ch : l) cout << ch << " ";
-    cout << endl;
+string universe = "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯЁ";
+
+struct bit {
+    unsigned int bit:1;
+};
+
+void init(bit* b) {
+    for (int i = 0; i < 33; i++) b[i].bit = 0;
 }
 
-void input(list<string>& l) {
+int f(string s) {
+    if (s[1]-'0'+160 == -15) return 32; // Ё
+    return s[1]-'0'+160;
+}
+
+string fb(int i) {
+    return universe.substr(i*2, 2);
+}
+
+void input(bit *b) {
     string line;
     getline(cin, line, '\n');
 
-    for (int i = 0; i < line.size(); ) {
-        unsigned char ch = line[i];
-        size_t len;
+    for (int i = 0; i < line.size(); i+=2) b[f(line.substr(i, 2))].bit = 1;
+}
 
-        // Определяем длину UTF-8 символа по первому байту
-        if ((ch & 0x80) == 0) len = 1;          // 0xxxxxxx
-        else if ((ch & 0xE0) == 0xC0) len = 2;  // 110xxxxx
-        else if ((ch & 0xF0) == 0xE0) len = 3;  // 1110xxxx
-        else if ((ch & 0xF8) == 0xF0) len = 4;  // 11110xxx
-        else len = 1; // fallback (некорректный UTF-8)
-
-        // Ограничиваем длину размером строки
-        if (i + len > line.size()) len = 1;
-
-        l.push_back(line.substr(i, len));
-        i += len;
+void print(bit *b) {
+    for (int i = 0; i < 33; i++) {
+        if (b[i].bit == 1) cout << fb(i) << " ";
     }
+    cout << endl;
+}
+
+void printBits(bit *b) {
+    for (int i = 0; i < 33; i++) cout << b[i].bit << " ";
+    cout << endl;
 }
 
 int main() {
     setlocale(LC_ALL, "Russian");
     
-    list<string> listA;
-    list<string> listB;
-    list<string> listC;
-    list<string> listD;
-    list<string> listE;
-
-    cout << "A: "; input(listA);
-    cout << "B: "; input(listB);
-    cout << "C: "; input(listC);
-    cout << "D: "; input(listD);
+    bit bA[33]; init(bA);
+    bit bB[33]; init(bB);
+    bit bC[33]; init(bC);
+    bit bD[33]; init(bD);
+    bit bE[33]; init(bE);
+    
+    cout << "A: "; input(bA);
+    cout << "B: "; input(bB);
+    cout << "C: "; input(bC);
+    cout << "D: "; input(bD);
 
     cout << endl;
 
-    cout << "A: "; print(listA);
-    cout << "B: "; print(listB);
-    cout << "C: "; print(listC);
-    cout << "D: "; print(listD);
+    cout << "A: "; print(bA);
+    cout << "B: "; print(bB);
+    cout << "C: "; print(bC);
+    cout << "D: "; print(bD);
     
     // Находим A ∩ B ∩ C - D
-    bool found = 0;
-    for (auto chA : listA) {
-        for (auto chB : listB) {
-            for (auto chC : listC) {
-                if (chA == chB && chA == chC) {
-                    listE.push_back(chA); found = 1; break;
-                }
-            }
-            if (found) {found = 0; break;}
-        }
-    }
+    for (int i = 0; i < 33; i++) bE[i].bit = bA[i].bit && bB[i].bit && bC[i].bit; 
 
-    for (auto itE = listE.begin(); itE != listE.end(); ++itE) {
-        for (auto itD = listD.begin(); itD != listD.end(); ++itD) {
-            if (*itE == *itD) {listE.erase(itE); break;}
-        }
-    }
+    for (int i = 0; i < 33; i++) bE[i].bit = not (bE[i].bit <= bD[i].bit);
     
-
-    // Вывод результата
-    cout << "Множество E = A ∩ B ∩ C - D: "; print(listE);
+    // // Вывод результата
+    cout << "Множество E = A ∩ B ∩ C - D: "; print(bE);
 
     return 0;
 }
