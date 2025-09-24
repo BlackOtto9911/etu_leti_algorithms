@@ -48,11 +48,11 @@ int main() {
    unsigned long long wE = 0;
   
    cout << "A: "; input(wA);
-   show(wA);
+   // show(wA);
    cout << "B: "; input(wB);
-   show(wB);
+   // show(wB);
    cout << "C: "; input(wC);
-   show(wC);
+   // show(wC);
    cout << "D: "; input(wD);
 
    cout << endl;
@@ -64,8 +64,8 @@ int main() {
   
    // Находим A ∩ B ∩ C - D
    wE = wA & wB & wC;
-   show(wD); show(~wD);
-   show(wE);
+   // show(wD); show(~wD);
+   // show(wE);
 
    wE = wE & (~wD);
   
