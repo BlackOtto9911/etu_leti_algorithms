@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string>
+#include <chrono>
 #include <clocale>
 
 using namespace std;
@@ -45,9 +46,11 @@ void print(unsigned long long w) {
 }
 
 int main() {
+  auto t1 = std::chrono::high_resolution_clock::now();
+
   srand(time(0));
   setlocale(LC_ALL, "Russian");
-   unsigned long long wA = init(); //show(wA);
+  unsigned long long wA = init(); //show(wA);
   unsigned long long wB = init(); //show(wB);
   unsigned long long wC = init(); //show(wC);
   unsigned long long wD = init(); //show(wD);
@@ -65,6 +68,9 @@ int main() {
   wE = wE & (~wD);
    // Вывод результата
   cout << "Множество E = A ∩ B ∩ C - D: "; print(wE);
+
+    auto t2 = std::chrono::high_resolution_clock::now();
+    cout << "Время выполнения: " << std::chrono::duration_cast<std::chrono::duration<double, micro>>(t2-t1).count() << " мкс" << endl;
 
   return 0;
 }
