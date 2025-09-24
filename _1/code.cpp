@@ -2,60 +2,65 @@
 #include <string>
 #include <clocale>
 #include "../headers/list.h"
+#include "../headers/set.h"
 
 using namespace std;
+
+string universe = "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯЁ";
+
+void init(list<string>& l) {
+    int size = rand() % 40; // -> <= 33 chars in set
+    int ind;
+    for (int i = 0; i < size; i++) {
+        ind = rand()%32+rand()%2;
+        l.push_back(universe.substr(ind*2, 2));
+    }
+}
+
+void removeDuplicates(list<string>& l) {
+    set<string> seen;
+    auto it = l.begin();
+    while (it != l.end()) {
+        if (seen.find(*it) != nullptr) {
+            auto itt = it;
+            l.erase(itt);
+        } else {
+            seen.insert(*it);
+        }
+        it++;
+    }
+}
+
 
 void print(list<string>& l) {
     for (auto ch : l) cout << ch << " ";
     cout << endl;
 }
 
-void input(list<string>& l) {
-    string line;
-    getline(cin, line, '\n');
-
-    for (int i = 0; i < line.size(); ) {
-        unsigned char ch = line[i];
-        size_t len;
-
-        // Определяем длину UTF-8 символа по первому байту
-        if ((ch & 0x80) == 0) len = 1;          // 0xxxxxxx
-        else if ((ch & 0xE0) == 0xC0) len = 2;  // 110xxxxx
-        else if ((ch & 0xF0) == 0xE0) len = 3;  // 1110xxxx
-        else if ((ch & 0xF8) == 0xF0) len = 4;  // 11110xxx
-        else len = 1; // fallback (некорректный UTF-8)
-
-        // Ограничиваем длину размером строки
-        if (i + len > line.size()) len = 1;
-
-        l.push_back(line.substr(i, len));
-        i += len;
-    }
-}
-
 int main() {
+    srand(time(0));
     setlocale(LC_ALL, "Russian");
     
-    list<string> listA;
-    list<string> listB;
-    list<string> listC;
-    list<string> listD;
+    list<string> listA; init(listA);
+    list<string> listB; init(listB);
+    list<string> listC; init(listC);
+    list<string> listD; init(listD);
     list<string> listE;
-
-    cout << "A: "; input(listA);
-    cout << "B: "; input(listB);
-    cout << "C: "; input(listC);
-    cout << "D: "; input(listD);
 
     cout << endl;
 
     cout << "A: "; print(listA);
+    cout << endl;
     cout << "B: "; print(listB);
+    cout << endl;
     cout << "C: "; print(listC);
+    cout << endl;
     cout << "D: "; print(listD);
+    cout << endl;
     
     // Находим A ∩ B ∩ C - D
     bool found = 0;
+    removeDuplicates(listA);
     for (auto chA : listA) {
         for (auto chB : listB) {
             for (auto chC : listC) {
