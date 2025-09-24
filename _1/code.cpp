@@ -3,8 +3,7 @@
 #include <time.h>
 #include <string>
 #include <clocale>
-
-#include <bitset>
+#include <chrono>
 
 using namespace std;
 
@@ -51,6 +50,8 @@ void printBits(bit *b) {
 }
 
 int main() {
+   auto t1 = std::chrono::high_resolution_clock::now();
+
    srand(time(0));
    setlocale(LC_ALL, "Russian");
   
@@ -79,6 +80,9 @@ int main() {
   
    // Вывод результата
    cout << "Множество E = A ∩ B ∩ C - D: "; print(bE);
+
+    auto t2 = std::chrono::high_resolution_clock::now();
+    cout << "Время выполнения: " << std::chrono::duration_cast<std::chrono::duration<double, micro>>(t2-t1).count() << " мкс" << endl;
 
    return 0;
 }
