@@ -51,6 +51,7 @@ void printBits(bit *b) {
 
 int main() {
    auto t1 = std::chrono::high_resolution_clock::now();
+   auto tt1 = clock();
 
    srand(time(0));
    setlocale(LC_ALL, "Russian");
@@ -82,7 +83,10 @@ int main() {
    cout << "Множество E = A ∩ B ∩ C - D: "; print(bE);
 
     auto t2 = std::chrono::high_resolution_clock::now();
+    auto tt2 = clock();
+
     cout << "Время выполнения: " << std::chrono::duration_cast<std::chrono::duration<double, micro>>(t2-t1).count() << " мкс" << endl;
+    cout << "Счетчик тиков: " << tt2-tt1 << endl;
 
    return 0;
 }
