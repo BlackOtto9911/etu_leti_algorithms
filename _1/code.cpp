@@ -10,7 +10,7 @@ using namespace std;
 string universe = "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯЁ";
 
 void init(list<string>& l) {
-    int size = rand() % 40; // -> <= 33 chars in set
+    int size = 20;
     int ind;
     for (int i = 0; i < size; i++) {
         ind = rand()%32+rand()%2;
@@ -40,6 +40,7 @@ void print(list<string>& l) {
 
 int main() {
     auto t1 = std::chrono::high_resolution_clock::now();
+    auto tt1 = clock();
 
     srand(time(0));
     setlocale(LC_ALL, "Russian");
@@ -86,7 +87,10 @@ int main() {
     cout << "Множество E = A ∩ B ∩ C - D: "; print(listE);
 
     auto t2 = std::chrono::high_resolution_clock::now();
+    auto tt2 = clock();
+
     cout << "Время выполнения: " << std::chrono::duration_cast<std::chrono::duration<double, micro>>(t2-t1).count() << " мкс" << endl;
+    cout << "Счетчик тиков: " << tt2-tt1 << endl;
 
     return 0;
 }
