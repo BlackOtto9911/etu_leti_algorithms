@@ -54,10 +54,13 @@ private:
 
 public:
     // конструктор по умолчанию
-    LinkedList() : head(nullptr), size_(0) {}
+    LinkedList() : head(nullptr), size_(0) {
+        std::cout << "LinkedList::LinkedList() called\n";
+    }
 
     // конструктор с начальной иницализацией
     LinkedList(std::initializer_list<T> init) : head(nullptr), size_(0) {
+        std::cout << "LinkedList::LinkedList(initializer_list) called\n";
         for (const T& value : init) {
             push_back(value);
         }
@@ -65,11 +68,13 @@ public:
 
     // деструктор
     ~LinkedList() {
+        std::cout << "LinkedList::~LinkedList() called\n";
         clear();
     }
 
     // копирование
     LinkedList(const LinkedList& other) : head(nullptr), size_(0) {
+        std::cout << "LinkedList::LinkedList(const LinkedList&) called\n";
         Node* current = other.head;
         while (current) {
             push_back(current->data);
@@ -78,6 +83,7 @@ public:
     }
 
     LinkedList& operator=(const LinkedList& other) {
+        std::cout << "LinkedList::operator= called\n";
         if (this != &other) {
             clear();
             Node* current = other.head;
@@ -91,22 +97,27 @@ public:
 
     // основные методы
     Iterator begin() {
+        std::cout << "LinkedList::begin() called\n";
         return Iterator(head);
     }
 
     Iterator begin() const {
+        std::cout << "LinkedList::begin() const called\n";
         return Iterator(head);
     }
 
     Iterator end() {
+        std::cout << "LinkedList::end() called\n";
         return Iterator(nullptr);
     }
 
     Iterator end() const {
+        std::cout << "LinkedList::end() const called\n";
         return Iterator(nullptr);
     }
 
     void push_front(const T& value) {
+        std::cout << "LinkedList::push_front() called\n";
         Node* newNode = new Node(value);
         newNode->next = head;
         head = newNode;
@@ -115,6 +126,7 @@ public:
 
     void push_back(const T& value) {
         Node* newNode = new Node(value);
+        std::cout << "LinkedList::push_back() called\n";
         if (!head) {
             head = newNode;
         } else {
@@ -128,6 +140,7 @@ public:
     }
 
     bool remove(const T& value) {
+        std::cout << "LinkedList::remove() called\n";
         if (!head) return false;
 
         if (head->data == value) {
@@ -155,6 +168,7 @@ public:
     }
 
     bool contains(const T& value) const {
+        std::cout << "LinkedList::contains() called\n";
         Node* current = head;
         while (current) {
             if (current->data == value) return true;
@@ -164,14 +178,17 @@ public:
     }
 
     size_t size() const {
+        std::cout << "LinkedList::size() called\n";
         return size_;
     }
 
     bool empty() const {
+        std::cout << "LinkedList::empty() called\n";
         return head == nullptr;
     }
 
     void print() const {
+        std::cout << "LinkedList::print() called\n";
         Node* current = head;
         while (current) {
             std::cout << current->data << " ";

@@ -121,10 +121,13 @@ private:
 
 public:
     // конструктор 
-    Set() : root(nullptr) {}
+    Set() : root(nullptr) {
+        std::cout << "Set::Set() called\n";
+    }
 
     // конструктор с начальной инициалиацией
     Set(std::initializer_list<T> init) : root(nullptr) {
+        std::cout << "Set::Set(initializer_list) called\n";
         for (const T& value : init) {
             insert(value);
         }
@@ -132,36 +135,44 @@ public:
 
     // деструктор
     ~Set() {
+        std::cout << "Set::~Set() called\n";
         destroy(root);
     }
 
     Iterator begin() const {
+        std::cout << "Set::begin() called\n";
         return Iterator(root);
     }
 
     Iterator end() const {
+        std::cout << "Set::end() called\n";
         return Iterator(nullptr);
     }
 
     // методы интерфейса
     void insert(const T& value) {
+        std::cout << "Set::insert() called\n";
         root = insert(root, value);
     }
 
     void remove(const T& value) {
+        std::cout << "Set::remove() called\n";
         root = remove(root, value);
     }
 
     bool contains(const T& value) const {
+        std::cout << "Set::contains() called\n";
         return contains(root, value);
     }
 
     void print() const {
+        std::cout << "Set::print() called\n";
         inorder(root);
         std::cout << std::endl;
     }
 
     bool empty() const {
+        std::cout << "Set::empty() called\n";
         return root == nullptr;
     }
 };

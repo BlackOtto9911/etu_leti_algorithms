@@ -95,6 +95,5 @@ int main() {
     cout << "Время выполнения: " << std::chrono::duration_cast<std::chrono::duration<double, micro>>(t2-t1).count() << " мкс" << endl;
     cout << "Счетчик тиков: " << tt2-tt1 << endl;
 
-
     return 0;
 }
